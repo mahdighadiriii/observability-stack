@@ -1,0 +1,10 @@
+server:
+  http:
+    port: 7201
+
+schema:
+  configs:
+    - from: 2021-01-01
+      store: "mimir"
+      object_store: "filesystem"
+      schema_type: "prometheus"
