@@ -1,10 +1,12 @@
+version: '3.7'
+
 services:
   grafana:
     image: grafana/grafana:latest
     ports:
       - "7300:3000"
-    environment:
-      - GF_SECURITY_ADMIN_PASSWORD=admin
+    env_file:
+      - ./env/.env
     depends_on:
       - loki
       - tempo
@@ -20,7 +22,7 @@ services:
       - "-config.file=/etc/loki/local-config.yaml"
       - "-config.expand-env=true"
     volumes:
-      - ./loki-config.yaml:/etc/loki/local-config.yaml
+      - ./config/loki-config.yaml:/etc/loki/local-config.yaml
       - loki-data:/loki
     restart: always
 
@@ -30,7 +32,7 @@ services:
       - "7302:3200"
     command: -config.file=/etc/tempo/config.yaml
     volumes:
-      - ./tempo-config.yaml:/etc/tempo/config.yaml
+      - ./config/tempo-config.yaml:/etc/tempo/config.yaml
     restart: always
 
   mimir:
@@ -40,9 +42,10 @@ services:
     command:
       - "--config.file=/etc/mimir/config.yaml"
     volumes:
-      - ./mimir-config.yaml:/etc/mimir/config.yaml
+      - ./config/mimir-config.yaml:/etc/mimir/config.yaml
     restart: always
-
+    env_file:
+      - ./env/.env
 
 volumes:
   grafana-data:
