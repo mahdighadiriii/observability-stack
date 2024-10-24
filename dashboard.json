@@ -1,0 +1,88 @@
+{
+    "title": "Advanced Monitoring Dashboard",
+    "panels": [
+      {
+        "type": "graph",
+        "title": "CPU Usage",
+        "targets": [
+          {
+            "datasource": "Loki",
+            "expr": "sum(rate(container_cpu_usage_seconds_total[1m])) by (container_name)"
+          }
+        ],
+        "gridPos": { "h": 9, "w": 12, "x": 0, "y": 0 }
+      },
+      {
+        "type": "graph",
+        "title": "Memory Usage",
+        "targets": [
+          {
+            "datasource": "Mimir",
+            "expr": "sum(container_memory_usage_bytes) by (container_name)"
+          }
+        ],
+        "gridPos": { "h": 9, "w": 12, "x": 12, "y": 0 }
+      },
+      {
+        "type": "graph",
+        "title": "Network I/O",
+        "targets": [
+          {
+            "datasource": "Loki",
+            "expr": "rate(container_network_receive_bytes_total{container_name!=\"POD\"}[1m])"
+          },
+          {
+            "datasource": "Loki",
+            "expr": "rate(container_network_transmit_bytes_total{container_name!=\"POD\"}[1m])"
+          }
+        ],
+        "gridPos": { "h": 9, "w": 12, "x": 0, "y": 9 }
+      },
+      {
+        "type": "graph",
+        "title": "Error Rate",
+        "targets": [
+          {
+            "datasource": "Mimir",
+            "expr": "sum(rate(app_errors_total[1m])) by (app)"
+          }
+        ],
+        "gridPos": { "h": 9, "w": 12, "x": 12, "y": 9 }
+      },
+      {
+        "type": "graph",
+        "title": "Request Latency",
+        "targets": [
+          {
+            "datasource": "Tempo",
+            "expr": "histogram_quantile(0.99, sum(rate(http_request_duration_seconds_bucket[1m])) by (le))"
+          }
+        ],
+        "gridPos": { "h": 9, "w": 24, "x": 0, "y": 18 }
+      },
+      {
+        "type": "graph",
+        "title": "Custom Metric 1",
+        "targets": [
+          {
+            "datasource": "Mimir",
+            "expr": "custom_metric_1"
+          }
+        ],
+        "gridPos": { "h": 9, "w": 12, "x": 0, "y": 27 }
+      },
+      {
+        "type": "graph",
+        "title": "Custom Metric 2",
+        "targets": [
+          {
+            "datasource": "Mimir",
+            "expr": "custom_metric_2"
+          }
+        ],
+        "gridPos": { "h": 9, "w": 12, "x": 12, "y": 27 }
+      }
+    ],
+    "time": { "from": "now-6h", "to": "now" }
+  }
+  

@@ -16,7 +16,7 @@ services:
     image: grafana/loki:latest
     ports:
       - "7301:3100"
-    command: 
+    command:
       - "-config.file=/etc/loki/local-config.yaml"
       - "-config.expand-env=true"
     volumes:
@@ -37,9 +37,12 @@ services:
     image: grafana/mimir:latest
     ports:
       - "7303:7201"
+    command:
+      - "--config.file=/etc/mimir/config.yaml"
     volumes:
       - ./mimir-config.yaml:/etc/mimir/config.yaml
     restart: always
+
 
 volumes:
   grafana-data:
