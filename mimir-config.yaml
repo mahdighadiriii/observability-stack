@@ -1,6 +1,6 @@
 server:
-  http:
-    port: 7201
+  http_listen_port: 7201
+  grpc_listen_port: 9095
 
 schema:
   configs:
